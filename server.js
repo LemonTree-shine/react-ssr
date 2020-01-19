@@ -1,27 +1,71 @@
+var webpack = require("webpack");
+var webpackConfig = require("./webpack.config");
 var express = require("express");
-var ejs = require("ejs");
-import React from "react";
-import {renderToString,renderToStaticMarkup} from "react-dom/server";
+var path = require("path");
+var fs = require("fs");
+var hbs = require('hbs');
+var http = require("http");
+var https = require("https");
+var React = require("react");
 
-import App from "./component/App";
-console.log(renderToString);
+const {renderToString,renderToStaticMarkup} = require('react-dom/server');
+var B = require("./page/b");
+
+//获取https证书
+var privateKey  = fs.readFileSync('./sslFile/private.pem', 'utf8');
+var certificate = fs.readFileSync('./sslFile/file.crt', 'utf8');
+var credentials = {key: privateKey, cert: certificate};
+
+var {configProxy} = require("./proxyConfig");
+
+var serverInfo = require("./serverConfig");
 
 var app = express();
 
-app.set("view engine","ejs");
+configProxy(app);
 
-app.get("/user",function(req,res){
-    var html = renderToString(<App/>)
+//配置handlebar模板
+app.set('view engine','hbs');
+//app.engine('html',hbs.__express);
+app.set('views',path.join(__dirname,'dist'));
+
+//设置静态文件路径
+app.use(express.static(path.join(__dirname,'dist')));
+
+// //所有路由请求都经过这里
+// app.get('*', function (req, res){
+//     res.render("index");
+// });
+
+//所有路由请求都经过这里
+app.get('*', function (req, res){
     res.render("index",{
-        __html:html
-    })
+        _html:renderToString(<B.default/>),
+    });
 });
 
-app.get("/app",function(req,res){
-    var html = renderToString(<App/>)
-    res.send(html);
+var HTTP = http.createServer(app);
+var HTTPS = https.createServer(credentials,app);
+
+//默认配置webpack开发环境
+webpackConfig.mode = "development";
+let compiler = webpack(webpackConfig);
+
+
+//监听事件
+HTTP.listen(serverInfo.environment.port,function(){
+    console.log(`server run at ${serverInfo.environment.port}`);
+    console.log(serverInfo);
+    // compiler.watch({},function(err, stats){
+    //     console.log(stats.toString({
+    //         colors:true
+    //     }));
+    // });
 });
 
-app.listen("8888",()=>{
-    console.log("run at:8888")
+//监听事件
+HTTPS.listen("443",function(){
+    console.log(`https server run at 443`);
 });
+
+
