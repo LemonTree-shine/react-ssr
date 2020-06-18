@@ -31,6 +31,7 @@ app.set('views',path.join(__dirname,'dist'));
 
 //设置静态文件路径
 app.use(express.static(path.join(__dirname,'dist')));
+app.use(express.static(path.join(__dirname,'static')));
 
 // //所有路由请求都经过这里
 // app.get('*', function (req, res){
@@ -38,9 +39,32 @@ app.use(express.static(path.join(__dirname,'dist')));
 // });
 
 //所有路由请求都经过这里
+app.get('/root/b', function (req, res){
+    
+    let getInitialProps = B.default.getInitialProps;
+    console.log(getInitialProps);
+    let data = {};
+    if(getInitialProps){
+        //处理异步请求
+        data = getInitialProps();
+        data.then((result)=>{
+            res.render("index",{
+                _html:renderToString(<B.default/>),
+            });
+        });
+    }else{
+        console.log(123123123123);
+        res.render("index",{
+            _html:renderToString(<B.default/>),
+        }); 
+    }
+
+    
+});
+
 app.get('*', function (req, res){
     res.render("index",{
-        _html:renderToString(<B.default/>),
+        _html:"",
     });
 });
 
