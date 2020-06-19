@@ -82,7 +82,7 @@ let compiler = webpack(webpackConfig);
 //监听事件
 HTTP.listen(serverInfo.environment.port,function(){
     console.log(`server run at ${serverInfo.environment.port}`);
-    createRoure();
+    //createRoure();
     // compiler.watch({},function(err, stats){
     //     console.log(stats.toString({
     //         colors:true

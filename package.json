@@ -39,7 +39,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack --watch",
     "build": "cross-env NODE_ENV=production webpack",
-    "server": "cross-env NODE_ENV=development babel-node server.js"
+    "server": "nodemon --exec cross-env NODE_ENV=development babel-node server.js"
   },
   "dependencies": {
     "@types/react": "^16.9.0",
@@ -54,7 +54,7 @@
     "less-plugin-functions": "^1.0.0",
     "node-sass": "^4.12.0",
     "node-watch": "^0.6.4",
-    "nodemon": "^1.19.1",
+    "nodemon": "^1.19.4",
     "react": "^16.12.0",
     "react-addons-css-transition-group": "^15.6.2",
     "react-dom": "^16.12.0",

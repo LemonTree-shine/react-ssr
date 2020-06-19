@@ -1,1 +1,1 @@
-module.exports = {"/A/a":"@page/A/a.jsx","/b":"@page/b.jsx"}
+module.exports = {"/index/index":"@page/index/index.jsx"}

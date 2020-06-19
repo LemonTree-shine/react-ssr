@@ -4,8 +4,6 @@ import "./index.scss";
 
 import {Router,browserHistory,Route,BrowserRouter} from 'react-router';
 
-import B from "@page/b";
-import A from "@page/A/a";
 
 import route from "../config/routeConfig";
 
