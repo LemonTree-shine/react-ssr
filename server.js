@@ -9,16 +9,19 @@ var https = require("https");
 var React = require("react");
 
 const {renderToString,renderToStaticMarkup} = require('react-dom/server');
-var B = require("./page/b");
 
 //获取https证书
 var privateKey  = fs.readFileSync('./sslFile/private.pem', 'utf8');
 var certificate = fs.readFileSync('./sslFile/file.crt', 'utf8');
 var credentials = {key: privateKey, cert: certificate};
 
-var {configProxy} = require("./proxyConfig");
+var {configProxy} = require("./proxyConfig");   //转发配置文件
 
-var serverInfo = require("./serverConfig");
+var serverInfo = require("./serverConfig");    //服务端配置文件
+
+var route = require("./config/routeConfig");  //路由配置文件
+
+var createRoure = require("./watch");
 
 var app = express();
 
@@ -33,35 +36,35 @@ app.set('views',path.join(__dirname,'dist'));
 app.use(express.static(path.join(__dirname,'dist')));
 app.use(express.static(path.join(__dirname,'static')));
 
-// //所有路由请求都经过这里
-// app.get('*', function (req, res){
-//     res.render("index");
-// });
-
-//所有路由请求都经过这里
-app.get('/root/b', function (req, res){
+//路由配置，完全匹配前端路由
+for(let path in route){
+    //获取当前路由下匹配的组件
+    let Com = require(route[path].replace("@page","./page"));
     
-    let getInitialProps = B.default.getInitialProps;
-    console.log(getInitialProps);
-    let data = {};
-    if(getInitialProps){
-        //处理异步请求
-        data = getInitialProps();
-        data.then((result)=>{
-            res.render("index",{
-                _html:renderToString(<B.default/>),
+    //添加服务端映射路由配置
+    app.get(path, function (req, res){
+        //获取指定组件的静态方法并且执行
+        let getInitialProps = Com.default.getInitialProps;
+
+        //储存接口请求返回数据
+        let data = {};
+        if(getInitialProps){
+            //处理异步请求
+            data = getInitialProps(req);
+            data.then((result)=>{
+                res.render("index",{
+                    _html:renderToString(<Com.default/>),
+                });
             });
-        });
-    }else{
-        console.log(123123123123);
-        res.render("index",{
-            _html:renderToString(<B.default/>),
-        }); 
-    }
+        }else{
+            res.render("index",{
+                _html:renderToString(<Com.default/>),
+            }); 
+        }
+    });
+}
 
-    
-});
-
+//没有匹配到前端路由的统一走默认的模板
 app.get('*', function (req, res){
     res.render("index",{
         _html:"",
@@ -79,7 +82,7 @@ let compiler = webpack(webpackConfig);
 //监听事件
 HTTP.listen(serverInfo.environment.port,function(){
     console.log(`server run at ${serverInfo.environment.port}`);
-    console.log(serverInfo);
+    createRoure();
     // compiler.watch({},function(err, stats){
     //     console.log(stats.toString({
     //         colors:true

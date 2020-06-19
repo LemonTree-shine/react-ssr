@@ -116,12 +116,14 @@ module.exports = {
                         ],
 					]
 				}
-			},{
+            }
+            ,{
                 loader:'mine-loader',
                 options:{
                     dir:"page"
                 }
-            }],
+            }
+        ],
             exclude:/node_modules/
         },{ 
             test: /\.js$/, 
