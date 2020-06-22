@@ -23,9 +23,22 @@ for(let key in route){
 
 var routeContent = <div>
     {routeArr.map((item,index)=>{
-        return <Route path={item.path} key={index} exact component={item.Com}></Route>
+        //return <Route path={item.path} key={index} exact component={item.Com}></Route>
+        return <Route path={item.path} key={index} exact component={wrap(item.Com)}></Route>
     })}
 </div>
+
+function wrap(Com){
+    return class extends React.Component{
+        render(){
+            let newProps = {
+                ...this.props,
+                ...window._reqData
+            }
+            return <Com {...newProps}/>
+        }
+    }
+}
 
 
 ReactDom.render(   
