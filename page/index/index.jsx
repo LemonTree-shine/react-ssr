@@ -5,7 +5,7 @@ import axios from "axios";
 export default class Index extends Component{
     render(){
         return <div>
-            <div>{this.state.name2}</div>
+            <div>{this.state.name2}345345345345</div>
             <div>{this.state.name}</div>
             <button onClick={this.handleClick}>点我换一个名字</button>
         </div>
@@ -39,5 +39,10 @@ export default class Index extends Component{
         // }).then((result)=>{
         //     console.log(result.data)
         // });
+        setTimeout(()=>{
+            this.setState({
+                name2:"测试名字"
+            })
+        },1000)
     }
 }

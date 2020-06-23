@@ -45,11 +45,13 @@ app.use('/api/test',function(req, res){
 
 //路由配置，完全匹配前端路由
 for(let path in route){
-    //获取当前路由下匹配的组件
-    let Com = require(route[path].replace("@page","./page"));
     
     //添加服务端映射路由配置
     app.get(path, function (req, res){
+        //开发模式下，每次路由进来删除原有的缓存，重新获取新的资源
+        delete require.cache[require.resolve(route[path].replace("@page","./page"))];
+        //获取当前路由下匹配的组件
+        let Com = require(route[path].replace("@page","./page"));
         //获取指定组件的静态方法并且执行
         let getInitialProps = Com.default.getInitialProps;
 
