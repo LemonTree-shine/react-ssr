@@ -43,7 +43,7 @@ module.exports = {
         filename:"[name].js",  //打包输出文件
         publicPath:PublicPath,
         path:path.resolve(__dirname,"dist"),  //必须是一个绝对路径
-        //chunkFilename:'[name].[chunkhash:5].chunk.js'
+        chunkFilename:'[name].[chunkhash:5].chunk.js'
     },
     // externals: {
     //     'react': 'React',
@@ -174,19 +174,19 @@ module.exports = {
         //         sourceMap:true,//源码调试
         //     })
         // ],
-        // splitChunks: {
-        //     cacheGroups: {
-        //         common:{//node_modules内的依赖库
-        //             chunks:"all",
-        //             name:"common",
-        //             minChunks: 2, //被不同entry引用次数(import),1次的话没必要提取
-        //             maxInitialRequests: 5,
-        //             minSize: 0,
-        //             priority:100,
-        //             // enforce: true?
-        //         },
-        //     }
-        // }
+        splitChunks: {
+            cacheGroups: {
+                common:{//node_modules内的依赖库
+                    chunks:"all",
+                    name:"common",
+                    minChunks: 2, //被不同entry引用次数(import),1次的话没必要提取
+                    maxInitialRequests: 5,
+                    minSize: 0,
+                    priority:100,
+                    // enforce: true?
+                },
+            }
+        }
     }
 }
 

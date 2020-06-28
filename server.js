@@ -22,7 +22,7 @@ var serverInfo = require("./serverConfig");    //服务端配置文件
 
 var route = require("./config/routeConfig");  //路由配置文件
 
-//var createRoure = require("./watch");
+var createRoure = require("./watch");
 
 var app = express();
 
@@ -42,6 +42,13 @@ app.use(express.static(path.join(__dirname,'static')));
 app.use('/api/test',function(req, res){
     res.send(JSON.stringify({name:"小西瓜"}));
 })
+
+app.get("*",function(req,res,next){
+    //重新获取路由配置文件,该配置只有在开发环境下能走
+    delete require.cache[require.resolve("./config/routeConfig")];
+    route = require("./config/routeConfig"); 
+    next();
+});
 
 //路由配置，完全匹配前端路由
 for(let path in route){
@@ -68,19 +75,21 @@ for(let path in route){
             });
         }else{
             res.render("index",{
-                _html:renderToString(<Com.default/>),
+                _html:renderToString(<Com.default {...data}/>),
                 _reqData:JSON.stringify(data)
             }); 
         }
     });
 }
 
-//没有匹配到前端路由的统一走默认的模板
-app.get('*', function (req, res){
+app.get("*",function(req,res,next){
     res.render("index",{
         _html:"",
-    });
+        _reqData:JSON.stringify({})
+    }); 
 });
+
+
 
 
 
@@ -96,7 +105,7 @@ let compiler = webpack(webpackConfig);
 //监听事件
 HTTP.listen(serverInfo.environment.port,function(){
     console.log(`server run at ${serverInfo.environment.port}`);
-    //createRoure();
+    createRoure();
     // compiler.watch({},function(err, stats){
     //     console.log(stats.toString({
     //         colors:true

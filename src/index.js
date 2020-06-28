@@ -4,8 +4,11 @@ import "./index.scss";
 
 import {Router,browserHistory,Route,BrowserRouter} from 'react-router';
 
-
+//全量加载的配置文件
 import route from "../config/routeConfig";
+
+//按需加载的配置文件
+import routes from "../router/router";
 
 let routeArr = [];
 for(let key in route){
@@ -21,13 +24,6 @@ for(let key in route){
     })
 }
 
-var routeContent = <div>
-    {routeArr.map((item,index)=>{
-        //return <Route path={item.path} key={index} exact component={item.Com}></Route>
-        return <Route path={item.path} key={index} exact component={wrap(item.Com)}></Route>
-    })}
-</div>
-
 function wrap(Com){
     return class extends React.Component{
         render(){
@@ -40,11 +36,20 @@ function wrap(Com){
     }
 }
 
+//处理全量加载的路由
+var routeContent = <div>
+    {routeArr.map((item,index)=>{
+        //return <Route path={item.path} key={index} exact component={item.Com}></Route>
+        return <Route path={item.path} key={index} exact component={wrap(item.Com)}></Route>
+    })}
+</div>
+
 
 ReactDom.render(   
-    <Router  history={browserHistory}>
-        {routeContent}
-    </Router>,
+    // <Router  history={browserHistory}>
+    //     {routeContent}
+    // </Router>,
+    <Router history={browserHistory} routes={routes}/>,
     document.getElementById("contain"),
     () => {
         //回调

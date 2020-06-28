@@ -28,7 +28,6 @@ export default class Index extends Component{
         this.setState({
             name:"改了一个名字"
         });
-        
     }
 
     componentDidMount(){
