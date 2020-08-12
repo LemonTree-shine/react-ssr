@@ -14,18 +14,19 @@ if(process.env.NODE_ENV){
     isDev = process.env.NODE_ENV === "development"
 }
 
-let PublicPath = "/";
+let PublicPath = "http://localhost/";
 
 let SourceMap = {}
 
 if(isDev){
-    PublicPath = "/";
+    PublicPath = "http://localhost/";
     SourceMap = {
         // devtool: 'source-map'
     }
 }else{
-    PublicPath = "/";
+    PublicPath = "http://localhost/";
 }
+console.log(isDev);
 
 module.exports = {
     ...SourceMap,
@@ -36,14 +37,16 @@ module.exports = {
 
     },
     mode:isDev?"development":"production", 
+    //mode:'production',
     entry:{
         bundle:"./src/index.js",
+        vendor: ['react','react-dom','react-router']
     },   //入口文件
     output:{
         filename:"[name].js",  //打包输出文件
         publicPath:PublicPath,
         path:path.resolve(__dirname,"dist"),  //必须是一个绝对路径
-        chunkFilename:'[name].[chunkhash:5].chunk.js'
+        chunkFilename:'[name].chunk.js'
     },
     // externals: {
     //     'react': 'React',
@@ -74,19 +77,19 @@ module.exports = {
         },{
             test:/\.less$/,
             use:[
-                {
-                    loader: MiniCssExtractPlugin.loader,
-                    options:{
-                        publicPath: './',
-                        hmr:true
-                    }
-                },
                 {loader:"style-loader"},
                 {loader:"css-loader"},
+                {loader:"postcss-loader"},
                 {
                     loader:"less-loader",
-                },
-                {loader:"postcss-loader"},
+                    options:{
+                        lessOptions:{
+                            javascriptEnabled: true
+                        }
+                        
+                    }
+                }
+                
             ]
         },{
             test:/\.scss$/,
@@ -111,35 +114,26 @@ module.exports = {
 					plugins: [
                         [
                             'import', 
-                            {"libraryName": "antd", "libraryDirectory": "es", "style": "css"},
+                            {"libraryName": "antd", "libraryDirectory": "es", "style": true},
                            
                         ],
+                        [
+                            "babel-plugin-transform-require-ignore",
+                            {
+                              "extensions": []
+                            }
+                        ]
 					]
 				}
             }
-            ,{
-                loader:'mine-loader',
-                options:{
-                    dir:"page"
-                }
-            }
+            // ,{
+            //     loader:'mine-loader',
+            //     options:{
+            //         dir:"page"
+            //     }
+            // }
         ],
             exclude:/node_modules/
-        },{ 
-            test: /\.js$/, 
-            enforce: "pre",
-            loader: "source-map-loader"
-        },{
-            test:/\.(png|jpe?g|gif|svg)$/,
-            use:{
-                loader:'url-loader',
-                options:{
-                    limit:8192,
-                    name:'images/[name].[ext]',
-                    publicPath:PublicPath
-                },
-
-            }
         }]
     },
     resolve:{
@@ -162,7 +156,7 @@ module.exports = {
             // }
         }),
         new CleanWebpackPlugin(),
-        new MiniCssExtractPlugin()
+        new MiniCssExtractPlugin(),
     ],
     optimization: {
         //打包 第三方库
@@ -186,7 +180,7 @@ module.exports = {
                     // enforce: true?
                 },
             }
-        }
+        },
     }
 }
 

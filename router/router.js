@@ -16,8 +16,15 @@ import React, { Component } from "react";
             path: '/index/index',
             getComponent: (nextState, cb) => {
                 require.ensure([], (require) => {
-                    cb(null, wrap(require('../page/index/index.jsx').default))
+                    cb(null, wrap(require('../page/index/index.js').default))
                 }, "/index/index")
+            },
+        },{
+            path: '/index2/index',
+            getComponent: (nextState, cb) => {
+                require.ensure([], (require) => {
+                    cb(null, wrap(require('../page/index2/index.js').default))
+                }, "/index2/index")
             },
         },
         ]

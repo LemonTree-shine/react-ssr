@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ReactDom from "react-dom";
 import "./index.scss";
+import Page404 from "../_document/404/404";
 
 import {Router,browserHistory,Route,BrowserRouter} from 'react-router';
 
@@ -8,13 +9,13 @@ import {Router,browserHistory,Route,BrowserRouter} from 'react-router';
 import route from "../config/routeConfig";
 
 //按需加载的配置文件
-import routes from "../router/router";
+//import routes from "../router/router";
 
 let routeArr = [];
 for(let key in route){
 
     //处理路由配置文件
-    const context = require.context('../page', true, /\.jsx$/);
+    const context = require.context('../page', true, /\.jsx?$/);
     //const keys = context.keys();
     const filename = route[key].replace("@page",".");
     const Com = context(filename);
@@ -42,14 +43,14 @@ var routeContent = <div>
         //return <Route path={item.path} key={index} exact component={item.Com}></Route>
         return <Route path={item.path} key={index} exact component={wrap(item.Com)}></Route>
     })}
+    <Route path="*" component={Page404}></Route>
 </div>
 
-
 ReactDom.render(   
-    // <Router  history={browserHistory}>
-    //     {routeContent}
-    // </Router>,
-    <Router history={browserHistory} routes={routes}/>,
+    <Router  history={browserHistory}>
+        {routeContent}
+    </Router>,
+    // <Router history={browserHistory} routes={routes}/>,
     document.getElementById("contain"),
     () => {
         //回调

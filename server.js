@@ -7,7 +7,19 @@ var hbs = require('hbs');
 var http = require("http");
 var https = require("https");
 var React = require("react");
-var axios = require('axios')
+var axios = require('axios');
+
+//处理的时候忽略引入的样式文件
+// require('@babel/register')({
+//     'plugins': [
+//       [
+//         'babel-plugin-transform-require-ignore',
+//         {
+//           extensions: ['.scss']
+//         }
+//       ]
+//     ]
+//   });
 
 const {renderToString,renderToStaticMarkup} = require('react-dom/server');
 
@@ -25,6 +37,10 @@ var route = require("./config/routeConfig");  //路由配置文件
 var createRoure = require("./watch");
 
 var app = express();
+
+//判断是开发环境还是生产环境
+//console.log(process.env.NODE_ENV);
+//development是开发环境，production是生产环境
 
 //开启代理
 // configProxy(app);
@@ -52,13 +68,15 @@ app.get("*",function(req,res,next){
 
 //路由配置，完全匹配前端路由
 for(let path in route){
-    
+    //获取当前路由下匹配的组件
+    //发布线上模式的时候，所有路由配置在服务启动的时候就加载完成
+    //let Com = require(route[path].replace("@page","./serverPage"));
+
     //添加服务端映射路由配置
     app.get(path, function (req, res){
-        //开发模式下，每次路由进来删除原有的缓存，重新获取新的资源
-        delete require.cache[require.resolve(route[path].replace("@page","./page"))];
-        //获取当前路由下匹配的组件
-        let Com = require(route[path].replace("@page","./page"));
+        // //开发模式下，每次路由进来删除原有的缓存，重新获取新的资源
+        delete require.cache[require.resolve(route[path].replace("@page","./serverPage"))];
+        let Com = require(route[path].replace("@page","./serverPage"));
         //获取指定组件的静态方法并且执行
         let getInitialProps = Com.default.getInitialProps;
 
@@ -105,7 +123,7 @@ let compiler = webpack(webpackConfig);
 //监听事件
 HTTP.listen(serverInfo.environment.port,function(){
     console.log(`server run at ${serverInfo.environment.port}`);
-    createRoure();
+    //createRoure();
     // compiler.watch({},function(err, stats){
     //     console.log(stats.toString({
     //         colors:true
