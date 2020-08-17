@@ -103,7 +103,18 @@ module.exports = {
                 },
                 {loader:"css-loader"},
                 {loader:"sass-loader",},
-                {loader:"postcss-loader"},
+                {
+                    loader:"postcss-loader",
+                    options:{
+                        "plugins":[
+                            require('autoprefixer')(),
+                            require("postcss-pxtorem")({
+                                "rootValue":100,
+                                "propList": ["*"]
+                            })
+                        ]
+                    }
+                },
             ]
         },{
             test:/(\.js|\.jsx)$/,

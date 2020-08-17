@@ -5,6 +5,8 @@ import Page404 from "../_document/404/404";
 
 import {Router,browserHistory,Route,BrowserRouter} from 'react-router';
 
+import Admin from "../page/admin/admin";
+
 //全量加载的配置文件
 import route from "../config/routeConfig";
 
@@ -32,7 +34,10 @@ function wrap(Com){
                 ...this.props,
                 ...window._reqData
             }
-            return <Com {...newProps}/>
+            return <div>
+                <Admin/>
+                <Com {...newProps}/>
+            </div>  
         }
     }
 }
@@ -46,7 +51,12 @@ var routeContent = <div>
     <Route path="*" component={Page404}></Route>
 </div>
 
-ReactDom.render(   
+// ReactDom.render(
+//     <Admin/>,
+//     document.getElementById("admin_common_layout")
+// );
+
+ReactDom.hydrate(   
     <Router  history={browserHistory}>
         {routeContent}
     </Router>,

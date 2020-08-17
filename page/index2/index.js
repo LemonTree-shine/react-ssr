@@ -6,15 +6,8 @@ import "./index.scss";
 export default class Index extends Component{
     render(){
         return <div className="home_page">
-            <div>{this.state.name}</div>
-            {/* <Alert message="Success Tips" type="success" showIcon /> */}
-            <img src="/image/demo.png"/>
+            1111111111111111
         </div>
-    }
-
-    static async getInitialProps(){
-        var result = await axios.post('/api/test',{});
-        return result.data
     }
 
     constructor(props){
@@ -22,13 +15,6 @@ export default class Index extends Component{
         this.state = {
             name:props.name
         }
-    }
-
-    componentDidMount(){
-        setTimeout(()=>{
-            this.setState({
-                name:"牛逼"
-            })
-        },2000)
+        console.log(123123123123)
     }
 }

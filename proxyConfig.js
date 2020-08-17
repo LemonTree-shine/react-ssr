@@ -17,7 +17,6 @@ function configProxy(app){
     });
 
     app.use("/api/*",function(req,res){
-        //console.log(req);
         Proxy.web(req,res,{
             //转发请求
             target:getTarget+req.originalUrl

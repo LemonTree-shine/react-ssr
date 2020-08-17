@@ -21,39 +21,35 @@ var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime/helpers/ge
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _axios = _interopRequireDefault(require("axios"));
+var _reactDom = _interopRequireDefault(require("react-dom"));
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
 
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
-var Index = /*#__PURE__*/function (_Component) {
-  (0, _inherits2["default"])(Index, _Component);
+var Admin = /*#__PURE__*/function (_Component) {
+  (0, _inherits2["default"])(Admin, _Component);
 
-  var _super = _createSuper(Index);
+  var _super = _createSuper(Admin);
 
-  (0, _createClass2["default"])(Index, [{
+  (0, _createClass2["default"])(Admin, [{
     key: "render",
     value: function render() {
-      return /*#__PURE__*/_react["default"].createElement("div", {
-        className: "home_page"
-      }, "1111111111111111");
+      return /*#__PURE__*/_react["default"].createElement("div", null, "\u6211\u662F\u516C\u5171\u7684admin");
     }
   }]);
 
-  function Index(props) {
-    var _this;
-
-    (0, _classCallCheck2["default"])(this, Index);
-    _this = _super.call(this, props);
-    _this.state = {
-      name: props.name
-    };
-    console.log(123123123123);
-    return _this;
+  function Admin() {
+    (0, _classCallCheck2["default"])(this, Admin);
+    return _super.call(this); //console.log("asdasdasdasd你在说什么,什么都觉得");
   }
 
-  return Index;
+  (0, _createClass2["default"])(Admin, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {//console.log(123);
+    }
+  }]);
+  return Admin;
 }(_react.Component);
 
-exports["default"] = Index;
+exports["default"] = Admin;

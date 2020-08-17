@@ -51,19 +51,30 @@ var Index = /*#__PURE__*/function (_Component) {
     key: "getInitialProps",
     value: function () {
       var _getInitialProps = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee() {
-        var result;
+        var result, article;
         return _regenerator["default"].wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _axios["default"].post('/api/test', {});
+                return _axios["default"].post('/test', {});
 
               case 2:
                 result = _context.sent;
-                return _context.abrupt("return", result.data);
+                _context.next = 5;
+                return _axios["default"].post('/api/readArticle', {
+                  id: "59"
+                }, {
+                  headers: {
+                    'content-type': 'text/plain; charset=UTF-8'
+                  }
+                });
 
-              case 4:
+              case 5:
+                article = _context.sent;
+                return _context.abrupt("return", article.data.data);
+
+              case 7:
               case "end":
                 return _context.stop();
             }
@@ -103,14 +114,18 @@ var Index = /*#__PURE__*/function (_Component) {
 
   (0, _createClass2["default"])(Index, [{
     key: "componentDidMount",
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      setTimeout(function () {
-        _this2.setState({
-          name: "牛逼"
-        });
-      }, 2000);
+    value: function componentDidMount() {// setTimeout(()=>{
+      //     this.setState({
+      //         name:"牛逼"
+      //     })
+      // },2000);
+      // axios.post('/api/readArticle',{
+      //     id:"62"
+      // },{
+      //     headers:{
+      //         'content-type': 'text/plain; charset=UTF-8'
+      //     }
+      // });
     }
   }]);
   return Index;

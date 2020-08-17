@@ -9,10 +9,11 @@
     <title>demo</title>
     <script>
         var imgPath = "http://www.xiaogangji.com";
-        window._reqData = JSON.parse('{{{_reqData}}}');
+        window._reqData = JSON.parse(decodeURIComponent('{{{_reqData}}}'));
     </script>
 </head>
 <body>
+    <div id="admin_common_layout"></div>
     <div id="contain">{{{_html}}}</div>
 </body>
 </html>

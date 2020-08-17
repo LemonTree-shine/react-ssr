@@ -13,6 +13,13 @@ import React, { Component } from "react";
     export default {
         childRoutes: [    
             {
+            path: '/admin/admin',
+            getComponent: (nextState, cb) => {
+                require.ensure([], (require) => {
+                    cb(null, wrap(require('../page/admin/admin.js').default))
+                }, "/admin/admin")
+            },
+        },{
             path: '/index/index',
             getComponent: (nextState, cb) => {
                 require.ensure([], (require) => {

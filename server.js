@@ -41,9 +41,13 @@ var app = express();
 //判断是开发环境还是生产环境
 //console.log(process.env.NODE_ENV);
 //development是开发环境，production是生产环境
+let isDev = true;
+if(process.env.NODE_ENV==="production"){
+    isDev = false;
+}
 
 //开启代理
-// configProxy(app);
+configProxy(app);
 
 //配置handlebar模板
 app.set('view engine','hbs');
@@ -55,14 +59,16 @@ app.use(express.static(path.join(__dirname,'dist')));
 app.use(express.static(path.join(__dirname,'static')));
 
 //接口请求测试路由
-app.use('/api/test',function(req, res){
+app.use('/test',function(req, res){
     res.send(JSON.stringify({name:"小西瓜"}));
 })
 
 app.get("*",function(req,res,next){
     //重新获取路由配置文件,该配置只有在开发环境下能走
-    delete require.cache[require.resolve("./config/routeConfig")];
-    route = require("./config/routeConfig"); 
+    if(isDev){
+        delete require.cache[require.resolve("./config/routeConfig")];
+        route = require("./config/routeConfig"); 
+    }
     next();
 });
 
@@ -70,13 +76,23 @@ app.get("*",function(req,res,next){
 for(let path in route){
     //获取当前路由下匹配的组件
     //发布线上模式的时候，所有路由配置在服务启动的时候就加载完成
-    //let Com = require(route[path].replace("@page","./serverPage"));
+    let Com = null;
+    let Admin = null;
+    if(!isDev){
+        Com = require(route[path].replace("@page","./serverPage"));
+        Admin = require("./serverPage/admin/admin");
+    }
 
     //添加服务端映射路由配置
     app.get(path, function (req, res){
         // //开发模式下，每次路由进来删除原有的缓存，重新获取新的资源
-        delete require.cache[require.resolve(route[path].replace("@page","./serverPage"))];
-        let Com = require(route[path].replace("@page","./serverPage"));
+        if(isDev){
+            delete require.cache[require.resolve(route[path].replace("@page","./serverPage"))];
+            delete require.cache[require.resolve('./serverPage/admin/admin')];
+            Com = require(route[path].replace("@page","./serverPage"));
+            Admin = require("./serverPage/admin/admin");
+        }
+        
         //获取指定组件的静态方法并且执行
         let getInitialProps = Com.default.getInitialProps;
 
@@ -86,14 +102,28 @@ for(let path in route){
             //处理异步请求
             data = getInitialProps(req);
             data.then((result)=>{
+                let json_result = JSON.stringify(result);
+                console.log(json_result);
                 res.render("index",{
-                    _html:renderToString(<Com.default {...result}/>),
-                    _reqData:JSON.stringify(result)
+                    _html:renderToString(
+                        // <Com.default {...result}/>
+                        <div>
+                            <Admin.default/>
+                            <Com.default {...result}/>
+                        </div>
+                    ),
+                    _reqData:encodeURIComponent(json_result)
                 });
             });
         }else{
             res.render("index",{
-                _html:renderToString(<Com.default {...data}/>),
+                _html:renderToString(
+                    //<Com.default {...data}/>
+                    <div>
+                        <Admin.default/>
+                        <Com.default {...data}/>
+                    </div>
+                ),
                 _reqData:JSON.stringify(data)
             }); 
         }

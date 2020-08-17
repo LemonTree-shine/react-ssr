@@ -14,8 +14,16 @@ export default class Index extends Component{
     }
 
     static async getInitialProps(){
-        var result = await axios.post('/api/test',{});
-        return result.data
+        var result = await axios.post('/test',{});
+        var article = await axios.post('/api/readArticle',{
+            id:"59"
+        },{
+            headers:{
+                'content-type': 'text/plain; charset=UTF-8'
+            }
+        });
+
+        return article.data.data
     }
 
     constructor(props){
@@ -26,11 +34,19 @@ export default class Index extends Component{
     }
 
     componentDidMount(){
-        setTimeout(()=>{
-            this.setState({
-                name:"牛逼"
-            })
-        },2000);
+        // setTimeout(()=>{
+        //     this.setState({
+        //         name:"牛逼"
+        //     })
+        // },2000);
+
+        // axios.post('/api/readArticle',{
+        //     id:"62"
+        // },{
+        //     headers:{
+        //         'content-type': 'text/plain; charset=UTF-8'
+        //     }
+        // });
 
        
     }
