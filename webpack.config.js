@@ -40,7 +40,7 @@ module.exports = {
     //mode:'production',
     entry:{
         bundle:"./src/index.js",
-        vendor: ['react','react-dom','react-router']
+        vendor: ['react','react-dom','react-router','axios']
     },   //入口文件
     output:{
         filename:"[name].js",  //打包输出文件
