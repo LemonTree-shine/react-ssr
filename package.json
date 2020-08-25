@@ -27,6 +27,7 @@
     "postcss-pxtorem": "^4.0.1",
     "react-redux": "^5.1.2",
     "redux": "^4.0.4",
+    "sass-resources-loader": "^2.1.0",
     "source-map-loader": "^0.2.4",
     "style-loader": "^0.23.1",
     "ts-loader": "^6.0.4",
@@ -69,5 +70,5 @@
     "ts-loader": "^6.0.4",
     "uglifyjs-webpack-plugin": "^2.2.0"
   },
-  "target": "http://www.xiaogangji.com"
+  "target": "http://localhost"
 }

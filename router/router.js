@@ -27,11 +27,11 @@ import React, { Component } from "react";
                 }, "/index/index")
             },
         },{
-            path: '/index2/index',
+            path: '/menu/index',
             getComponent: (nextState, cb) => {
                 require.ensure([], (require) => {
-                    cb(null, wrap(require('../page/index2/index.js').default))
-                }, "/index2/index")
+                    cb(null, wrap(require('../page/menu/index.js').default))
+                }, "/menu/index")
             },
         },
         ]

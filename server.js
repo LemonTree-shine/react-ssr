@@ -87,6 +87,7 @@ for(let path in route){
     app.get(path, function (req, res){
         // //开发模式下，每次路由进来删除原有的缓存，重新获取新的资源
         if(isDev){
+            console.log("是走的开发模式")
             delete require.cache[require.resolve(route[path].replace("@page","./serverPage"))];
             delete require.cache[require.resolve('./serverPage/admin/admin')];
             Com = require(route[path].replace("@page","./serverPage"));
@@ -103,13 +104,18 @@ for(let path in route){
             data = getInitialProps(req);
             data.then((result)=>{
                 let json_result = JSON.stringify(result);
-                console.log(json_result);
+                // console.log(json_result);
                 res.render("index",{
                     _html:renderToString(
                         // <Com.default {...result}/>
                         <div>
-                            <Admin.default/>
-                            <Com.default {...result}/>
+                            <Admin.default {...result}/>
+                            <div className="manage_page_common_content">
+                                <Com.default 
+                                    // {...result}
+                                    PAGE_DATA = {result}
+                                />
+                            </div>
                         </div>
                     ),
                     _reqData:encodeURIComponent(json_result)
@@ -121,7 +127,9 @@ for(let path in route){
                     //<Com.default {...data}/>
                     <div>
                         <Admin.default/>
-                        <Com.default {...data}/>
+                        <div className="manage_page_common_content">
+                            <Com.default PAGE_DATA = {data}/>
+                        </div>
                     </div>
                 ),
                 _reqData:JSON.stringify(data)

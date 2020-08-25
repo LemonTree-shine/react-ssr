@@ -12,12 +12,6 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}\\server.js"
-        },
-        {
-            "type": "node",
-            "name": "短点调试",
-            "request": "attach",
-            "processId": "${command:PickProcess}"
         }
     ]
 }

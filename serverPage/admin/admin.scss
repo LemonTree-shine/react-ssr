@@ -1,0 +1,61 @@
+.admin_page_common_layout{
+    .left_wrap_content{
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        width: 500px;
+        background: #414146;
+        overflow: hidden;
+        transition: width 0.2s;
+        &.unexpend{
+            width: 110px;
+            transition: width 0.2s;
+        }
+        .menu_list{
+            
+            color: #cacacb;
+            padding: 20px 0;
+            align-items: center;
+            width: 500px;
+            cursor: pointer;
+            &.active{
+                background: #5c5c63;
+            }
+            a{
+                display: flex;
+            }
+            .iconfont{
+                font-size: 40px;
+                padding-left: 40px;
+                padding-right: 30px;
+                line-height: 50px;
+                color: #cacacb;
+            }
+            .name{
+                font-size: 28px;
+                line-height: 50px;
+                color: #cacacb;
+            }
+        }
+        .menu_btn{
+            background: $themeColor;
+            padding: 30px 0;
+            .iconfont{
+                color: #f3f5f6;
+                cursor: pointer;
+                line-height: 50px;
+            }
+        }
+    }
+    .header_wrap_content{
+        background: $themeColor;
+        height: 110px;
+        .login_name{
+            line-height: 110px;
+            float: right;
+            color: #ffffff;
+            font-size: 36px;
+            padding-right: 40px;
+        }
+    }
+}

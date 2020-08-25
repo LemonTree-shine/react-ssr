@@ -1,7 +1,7 @@
 var dev = {
     env:"dev",
-    port:80,
-    local:"//localhost:80",
+    port:8080,
+    local:"//localhost:8080",
     online:""  //线上地址，待定
 };
 

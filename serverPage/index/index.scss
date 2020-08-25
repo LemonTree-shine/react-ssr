@@ -1,5 +1,60 @@
-body{
-    padding: 0;
-    margin: 0;
-    color:red !important;
+.home_page{
+    .table_div{
+        table{
+            width: 100%;
+            border-top: 1px solid #ccc;
+            border-left: 1px solid #ccc;
+            border-collapse:collapse;
+            border-spacing:1;
+            border-spacing:0;
+            td,th{
+                border-right: 1px solid #ccc;
+                border-bottom: 1px solid #ccc; 
+            }
+            th{
+                text-align: left;
+                padding: 20px;
+                font-size: 24px;
+                background: #cccccc4f;
+            }
+            td{
+                text-align: left;
+                padding: 15px 20px 15px 20px;
+                font-size: 22px;
+            }
+            .opration_btn{
+                color: $themeColor;
+                cursor: pointer;
+            }
+        }
+    }
+}
+.form_table_group{
+    display: table;
+    .from_label_group{
+        display: table-row;
+        .label{
+            display: table-cell;
+            font-size: 20px;
+            text-align: right;
+            width: auto;
+        }
+        .input_wrap{
+            margin-bottom: 20px;
+        }
+        input{
+            display: table-cell;
+        }
+        .ant-input{
+            width: 700px;
+        }
+    }
+}
+
+.form_ant_modal{
+    .ant-modal{
+        display: inline-block;
+        position: absolute;
+        left: 38%;
+    }
 }

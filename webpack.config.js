@@ -19,12 +19,12 @@ let PublicPath = "http://localhost/";
 let SourceMap = {}
 
 if(isDev){
-    PublicPath = "http://localhost/";
+    PublicPath = "http://localhost:8080/";
     SourceMap = {
         // devtool: 'source-map'
     }
 }else{
-    PublicPath = "http://localhost/";
+    PublicPath = "http://localhost:8080/";
 }
 console.log(isDev);
 
@@ -79,7 +79,18 @@ module.exports = {
             use:[
                 {loader:"style-loader"},
                 {loader:"css-loader"},
-                {loader:"postcss-loader"},
+                {
+                    loader:"postcss-loader",
+                    options:{
+                        "plugins":[
+                            require('autoprefixer')(),
+                            require("postcss-pxtorem")({
+                                "rootValue":50,
+                                "propList": ["*"]
+                            })
+                        ]
+                    }
+                },
                 {
                     loader:"less-loader",
                     options:{
@@ -115,6 +126,14 @@ module.exports = {
                         ]
                     }
                 },
+                {
+                    loader: 'sass-resources-loader',
+                    options: {
+                        resources: [
+                            './src/scss/theme.scss',
+                        ]
+                    }
+                }
             ]
         },{
             test:/(\.js|\.jsx)$/,

@@ -13,13 +13,15 @@ function configProxy(app){
     }
     
     var Proxy = proxy.createProxyServer({
-        changeOrigin: true
+        //changeOrigin: true
     });
+
 
     app.use("/api/*",function(req,res){
         Proxy.web(req,res,{
             //转发请求
             target:getTarget+req.originalUrl
+            //target:getTarget
         })
     });
 

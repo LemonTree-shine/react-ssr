@@ -49,7 +49,6 @@ var Index = /*#__PURE__*/function (_Component) {
     _this.state = {
       name: props.name
     };
-    console.log(123123123123);
     return _this;
   }
 

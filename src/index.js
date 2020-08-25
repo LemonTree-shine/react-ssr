@@ -32,11 +32,13 @@ function wrap(Com){
         render(){
             let newProps = {
                 ...this.props,
-                ...window._reqData
+                PAGE_DATA:window._reqData
             }
             return <div>
-                <Admin/>
-                <Com {...newProps}/>
+                <Admin {...newProps}/>
+                <div className="manage_page_common_content">
+                    <Com {...newProps}/>
+                </div>
             </div>  
         }
     }
