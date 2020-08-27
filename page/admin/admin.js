@@ -41,31 +41,48 @@ export default class Admin extends Component{
         </div>
     }
 
-    constructor(props){
-        super(props);
-        this.state = {
-            expend:true,
-            menuList:[],
-            currentPath:""
-        }
-    }
-    componentDidMount(){
-        this.getManageMenu();
-    }
-
-    async getManageMenu(){
-        var result = await axios.post('/api/manage/getManageMenu',{
+    static async getAdminProps(req){
+        var result = await axios.post('http://127.0.0.1:8080/api/manage/getManageMenu',{
             admin:1
         },{
             headers:{
                 'content-type': 'text/plain; charset=UTF-8'
             }
         });
-        this.setState({
-            menuList:result.data.data,
-            currentPath:this.props.location.pathname
-        });
+
+        return {
+            adminMenuList:result.data.data,
+            pathname:req.url.split("?")[0]
+        };
     }
+
+    constructor(props){
+        super(props);
+        this.state = {
+            expend:true,
+            menuList:props.PAGE_DATA.adminMenuList,
+            currentPath:props.PAGE_DATA.pathname
+        }
+    }
+    componentDidMount(){
+        // this.setState({
+        //     currentPath:this.props.location.pathname
+        // });
+    }
+
+    // async getManageMenu(){
+    //     var result = await axios.post('/api/manage/getManageMenu',{
+    //         admin:1
+    //     },{
+    //         headers:{
+    //             'content-type': 'text/plain; charset=UTF-8'
+    //         }
+    //     });
+    //     this.setState({
+    //         menuList:result.data.data,
+    //         currentPath:this.props.location.pathname
+    //     });
+    // }
 
     expendMenu = ()=>{
         let { expend } = this.state;

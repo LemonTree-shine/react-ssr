@@ -1,1 +1,98 @@
 $themeColor:#00cdb1;
+
+// 绿色主题：#32b16c
+$green_theme:#00cdb1;
+$green_theme_01:rgba(50, 177, 108, 0.1);
+$green_theme_04:rgba(50, 177, 108, 0.4);
+$green_theme_05:rgba(50, 177, 108, 0.5);
+
+//深绿色主题：A37C43(协和、京医通项目)
+$dark_green_theme:rgba(40,154,64, 1);
+$dark_green_theme_01:rgba(40,154,64, 0.1);
+$dark_green_theme_04:rgba(40,154,64, 0.4);
+$dark_green_theme_05:rgba(40,154,64, 0.5);
+
+//蓝色主题:#00BCD4
+$blue_theme:rgba(0, 188, 212, 1);
+$blue_theme_01:rgba(0, 188, 212, 0.1);
+$blue_theme_04:rgba(0, 188, 212, 0.4);
+$blue_theme_05:rgba(0, 188, 212, 0.5);
+
+//粉色主题:#FE4772
+$pink_theme:rgba(254, 71, 114, 1);
+$pink_theme_01:rgba(254, 71, 114, 0.1);
+$pink_theme_04:rgba(254, 71, 114, 0.4);
+$pink_theme_05:rgba(254, 71, 114, 0.5);
+
+//棕色主题:#A37C43
+$brown_theme:rgba(163, 124, 67, 1);
+$brown_theme_01:rgba(163, 124, 67, 0.1);
+$brown_theme_04:rgba(163, 124, 67, 0.4);
+$brown_theme_05:rgba(163, 124, 67, 0.5);
+
+$themeArr: (
+    "green": (
+        "color": $green_theme,
+        "background-color": $green_theme,
+        "background": $green_theme,
+        "shadow-color":$green_theme_05,
+        "background_op01":$green_theme_01,
+        "background_op04":$green_theme_04,
+    ),
+    "dark_green": (
+        "color": $dark_green_theme,
+        "background-color": $dark_green_theme,
+        "background": $dark_green_theme,
+        "shadow-color":$dark_green_theme_05,
+        "background_op01":$dark_green_theme_01,
+        "background_op04":$dark_green_theme_04,
+    ),
+    "blue": (
+        "color": $blue_theme,
+        "background-color": $blue_theme,
+        "background": $blue_theme,
+        "shadow-color":$blue_theme_05,
+        "background_op01":$blue_theme_01,
+        "background_op04":$blue_theme_04,
+    ),
+    "pink": (
+        "color": $pink_theme,
+        "background-color": $pink_theme,
+        "background": $pink_theme,
+        "shadow-color":$pink_theme_05,
+        "background_op01":$pink_theme_01,
+        "background_op04":$pink_theme_04,
+    ),
+    "brown": (
+        "color": $brown_theme,
+        "background-color": $brown_theme,
+        "background": $brown_theme,
+        "shadow-color":$brown_theme_05,
+        "background_op01":$brown_theme_01,
+        "background_op04":$brown_theme_04,
+    ),
+);
+
+//$valueKey为索要获取的制定属性值，默认使用$keyStyle
+@mixin setThemes($keyStyle:"color",$valueKey:"",$themes:$themeArr) {
+    @each $theme,$map in $themes {
+        .admin-theme-#{$theme} & {
+            @if $valueKey != ""{
+                #{$keyStyle}:map-get($map,$valueKey);
+            }@else{
+                #{$keyStyle}:map-get($map,$keyStyle);
+            }
+            
+            @content;
+        }
+    }
+}
+
+//处理boxShadow不能单独设置颜色的问题
+@mixin setBoxShadow($h,$v,$b,$s,$themes:$themeArr) {
+    @each $theme,$map in $themes {
+        .admin-theme-#{$theme} & {
+            box-shadow:$h $v $b $s map-get($map,"shadow-color");
+        }
+    }
+}

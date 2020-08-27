@@ -50,3 +50,8 @@ body{
         font-size: 0.44rem;
     }
 }
+
+.ant-btn-primary,.ant-btn-primary:hover,.ant-btn-primary:active,.ant-btn-primary:focus{
+    @include setThemes("background");
+    @include setThemes("border-color","color");
+}

@@ -1,6 +1,7 @@
 .manage_common_btn{
     display: inline-block;
-    background: $themeColor;
+    //background: $themeColor;
+    @include setThemes("background");
     color: #ffffff;
     font-size: 16px;
     padding: 10px 20px;

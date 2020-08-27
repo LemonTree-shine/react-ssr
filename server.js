@@ -96,24 +96,31 @@ for(let path in route){
         
         //获取指定组件的静态方法并且执行
         let getInitialProps = Com.default.getInitialProps;
+        //获取admin组件的静态方法并且执行
+        let getAdminProps = Admin.default.getAdminProps;
 
         //储存接口请求返回数据
         let data = {};
+        let admin = {};
         if(getInitialProps){
             //处理异步请求
             data = getInitialProps(req);
-            data.then((result)=>{
-                let json_result = JSON.stringify(result);
-                // console.log(json_result);
+            admin = getAdminProps(req);
+            Promise.all([data,admin]).then((result)=>{
+                let PAGE_DATA = {
+                    ...result[0],
+                    ...result[1]
+                }
+                let json_result = JSON.stringify(PAGE_DATA);
                 res.render("index",{
                     _html:renderToString(
                         // <Com.default {...result}/>
                         <div>
-                            <Admin.default {...result}/>
+                            <Admin.default PAGE_DATA = {PAGE_DATA}/>
                             <div className="manage_page_common_content">
                                 <Com.default 
                                     // {...result}
-                                    PAGE_DATA = {result}
+                                    PAGE_DATA = {PAGE_DATA}
                                 />
                             </div>
                         </div>
@@ -122,18 +129,36 @@ for(let path in route){
                 });
             });
         }else{
-            res.render("index",{
-                _html:renderToString(
-                    //<Com.default {...data}/>
-                    <div>
-                        <Admin.default/>
-                        <div className="manage_page_common_content">
-                            <Com.default PAGE_DATA = {data}/>
+            admin = getAdminProps(req);
+            admin.then((result)=>{
+                let PAGE_DATA = result;
+                let json_result = JSON.stringify(PAGE_DATA);
+                res.render("index",{
+                    _html:renderToString(
+                        <div>
+                            <Admin.default PAGE_DATA = {PAGE_DATA}/>
+                            <div className="manage_page_common_content">
+                                <Com.default 
+                                    PAGE_DATA = {PAGE_DATA}
+                                />
+                            </div>
                         </div>
-                    </div>
-                ),
-                _reqData:JSON.stringify(data)
-            }); 
+                    ),
+                    _reqData:encodeURIComponent(json_result)
+                });
+            });
+            // res.render("index",{
+            //     _html:renderToString(
+            //         //<Com.default {...data}/>
+            //         <div>
+            //             <Admin.default/>
+            //             <div className="manage_page_common_content">
+            //                 <Com.default PAGE_DATA = {data}/>
+            //             </div>
+            //         </div>
+            //     ),
+            //     _reqData:JSON.stringify(data)
+            // }); 
         }
     });
 }

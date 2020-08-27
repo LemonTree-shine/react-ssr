@@ -113,7 +113,15 @@ module.exports = {
                     }
                 },
                 {loader:"css-loader"},
-                {loader:"sass-loader",},
+                {loader:"sass-loader"},
+                {
+                    loader: 'sass-resources-loader',
+                    options: {
+                        resources: [
+                            './src/scss/theme.scss',
+                        ]
+                    }
+                },
                 {
                     loader:"postcss-loader",
                     options:{
@@ -125,15 +133,8 @@ module.exports = {
                             })
                         ]
                     }
-                },
-                {
-                    loader: 'sass-resources-loader',
-                    options: {
-                        resources: [
-                            './src/scss/theme.scss',
-                        ]
-                    }
                 }
+                
             ]
         },{
             test:/(\.js|\.jsx)$/,

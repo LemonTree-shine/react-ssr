@@ -79,6 +79,45 @@ var Admin = /*#__PURE__*/function (_Component) {
         className: "login_name"
       }, "admin")));
     }
+  }], [{
+    key: "getAdminProps",
+    value: function () {
+      var _getAdminProps = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(req) {
+        var result;
+        return _regenerator["default"].wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return _axios["default"].post('http://127.0.0.1:8080/api/manage/getManageMenu', {
+                  admin: 1
+                }, {
+                  headers: {
+                    'content-type': 'text/plain; charset=UTF-8'
+                  }
+                });
+
+              case 2:
+                result = _context.sent;
+                return _context.abrupt("return", {
+                  adminMenuList: result.data.data,
+                  pathname: req.url.split("?")[0]
+                });
+
+              case 4:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+
+      function getAdminProps(_x) {
+        return _getAdminProps.apply(this, arguments);
+      }
+
+      return getAdminProps;
+    }()
   }]);
 
   function Admin(props) {
@@ -105,56 +144,31 @@ var Admin = /*#__PURE__*/function (_Component) {
 
     _this.state = {
       expend: true,
-      menuList: [],
-      currentPath: ""
+      menuList: props.PAGE_DATA.adminMenuList,
+      currentPath: props.PAGE_DATA.pathname
     };
     return _this;
   }
 
   (0, _createClass2["default"])(Admin, [{
     key: "componentDidMount",
-    value: function componentDidMount() {
-      this.getManageMenu();
-    }
-  }, {
-    key: "getManageMenu",
-    value: function () {
-      var _getManageMenu = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee() {
-        var result;
-        return _regenerator["default"].wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return _axios["default"].post('/api/manage/getManageMenu', {
-                  admin: 1
-                }, {
-                  headers: {
-                    'content-type': 'text/plain; charset=UTF-8'
-                  }
-                });
+    value: function componentDidMount() {// this.setState({
+      //     currentPath:this.props.location.pathname
+      // });
+    } // async getManageMenu(){
+    //     var result = await axios.post('/api/manage/getManageMenu',{
+    //         admin:1
+    //     },{
+    //         headers:{
+    //             'content-type': 'text/plain; charset=UTF-8'
+    //         }
+    //     });
+    //     this.setState({
+    //         menuList:result.data.data,
+    //         currentPath:this.props.location.pathname
+    //     });
+    // }
 
-              case 2:
-                result = _context.sent;
-                this.setState({
-                  menuList: result.data.data,
-                  currentPath: this.props.location.pathname
-                });
-
-              case 4:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function getManageMenu() {
-        return _getManageMenu.apply(this, arguments);
-      }
-
-      return getManageMenu;
-    }()
   }]);
   return Admin;
 }(_react.Component);
