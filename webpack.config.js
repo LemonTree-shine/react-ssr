@@ -24,7 +24,7 @@ if(isDev){
         // devtool: 'source-map'
     }
 }else{
-    PublicPath = "http://127.0.0.1:8080/";
+    PublicPath = "http://www.xoapgangji.com:8080/";
 }
 console.log(isDev);
 
