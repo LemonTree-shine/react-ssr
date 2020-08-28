@@ -188,8 +188,8 @@ var HTTP = http.createServer(app);
 var HTTPS = https.createServer(credentials,app);
 
 //默认配置webpack开发环境
-webpackConfig.mode = "development";
-let compiler = webpack(webpackConfig);
+// webpackConfig.mode = "development";
+// let compiler = webpack(webpackConfig);
 
 
 //监听事件
