@@ -1,5 +1,13 @@
-var webpack = require("webpack");
-var webpackConfig = require("./webpack.config");
+
+
+require('@babel/polyfill');
+require("@babel/register")({
+    "presets": [
+        "@babel/preset-env",
+        "@babel/preset-react"
+    ]
+});
+
 var express = require("express");
 var path = require("path");
 var fs = require("fs");
@@ -22,6 +30,7 @@ var request = require('request');
 //       ]
 //     ]
 //   });
+
 
 const {renderToString,renderToStaticMarkup} = require('react-dom/server');
 
