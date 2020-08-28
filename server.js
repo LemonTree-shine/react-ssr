@@ -1,12 +1,6 @@
 
 
-require('@babel/polyfill');
-require("@babel/register")({
-    "presets": [
-        "@babel/preset-env",
-        "@babel/preset-react"
-    ]
-});
+require("@babel/register");
 
 var express = require("express");
 var path = require("path");

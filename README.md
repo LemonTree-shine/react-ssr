@@ -4,3 +4,4 @@
 "server": "cross-env NODE_ENV=production babel-node server.js"
 
 "babel -w page --out-dir serverPage --copy-files",
+"babel server.js --out-file server-compiled.js"

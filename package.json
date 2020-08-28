@@ -44,7 +44,7 @@
     "build": "cross-env NODE_ENV=production webpack",
     "server": "cross-env NODE_ENV=development babel-node server.js",
     "file": "babel -w page --out-dir serverPage --copy-files",
-    "server_p": "cross-env NODE_ENV=production babel-node server.js"
+    "server_p": "cross-env NODE_ENV=production node server_build.js"
   },
   "dependencies": {
     "@babel/register": "^7.10.5",
