@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import ReactDom from "react-dom";
 import "./index.scss";
 import Page404 from "../_document/404/404";
+import Login from "../_document/login/login";
 
 import {Router,browserHistory,Route,BrowserRouter} from 'react-router';
 
-import Admin from "../page/admin/admin";
+import Admin from "../page/manage/admin/admin";
 
 //全量加载的配置文件
 import route from "../config/routeConfig";
@@ -50,6 +51,7 @@ var routeContent = <div>
         //return <Route path={item.path} key={index} exact component={item.Com}></Route>
         return <Route path={item.path} key={index} exact component={wrap(item.Com)}></Route>
     })}
+    <Route path="/manage/login" component={Login}></Route>
     <Route path="*" component={Page404}></Route>
 </div>
 

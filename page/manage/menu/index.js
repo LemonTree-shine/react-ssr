@@ -1,8 +1,8 @@
 import React,{Component} from 'react';
 import axios from "axios";
-import Button from "../../component/button/index";
+import Button from "../../../component/button/index";
 import { Modal,Input,notification  } from 'antd';
-import Form from "../../component/form/form";
+import Form from "../../../component/form/form";
 import "./index.scss";
 
 export default class Index extends Component{
@@ -17,9 +17,9 @@ export default class Index extends Component{
                     <thead>
                         <tr>
                             <th width="40px">ID</th>
-                            <th>地址</th>
                             <th>名称</th>
-                            <th>图标</th>
+                            <th>地址</th>
+                            <th>阅读次数</th>
                             <th>操作</th>
                         </tr>
                     </thead>
@@ -27,14 +27,9 @@ export default class Index extends Component{
                         {menuList.map((item,index)=>{
                             return <tr key={item.id}>
                                 <td>{item.id}</td> 
-                                <td>{item.linkUrl}</td> 
                                 <td>{item.name}</td> 
-                                <td>
-                                    <div className="iconfont" dangerouslySetInnerHTML={{
-                                        __html:item.icon
-                                    }}></div>
-                                    {item.icon}
-                                </td> 
+                                <td>{item.linkUrl}</td> 
+                                <td>{item.read_num}</td> 
                                 <td>
                                     <span className="opration_btn" onClick={this.editMenu.bind(this,item)}>编辑</span>&nbsp;&nbsp;
                                     <span className="opration_btn" onClick={this.deleteMenu.bind(this,item)}>删除</span>
@@ -84,16 +79,6 @@ export default class Index extends Component{
                                 />
                             </div>
                         </div>
-                        <div className="from_label_group">
-                            <div className="label">图标：</div>
-                            <div className="input_wrap">
-                                <Input 
-                                    name="icon" 
-                                    value={this.state.currentMenu.icon}
-                                    onChange={(e)=>{this.changeInputValue("icon",e)}}
-                                />
-                            </div>
-                        </div>
                     </div>
                 </Form>
             </Modal>
@@ -102,10 +87,11 @@ export default class Index extends Component{
 
     static async getInitialProps(req){
         var result = await axios.post('http://127.0.0.1:8080/api/manage/getManageMenu',{
-            admin:1
+            type:"recommend"
         },{
             headers:{
-                'content-type': 'text/plain; charset=UTF-8'
+                'content-type': 'text/plain; charset=UTF-8',
+                "cookie":req.headers.cookie || ""
             }
         });
 
@@ -139,7 +125,7 @@ export default class Index extends Component{
     //获取菜单
     getMenu = ()=>{
         axios.post('/api/manage/getManageMenu',{
-            admin:1
+            type:"recommend"
         },{
             headers:{
                 'content-type': 'text/plain; charset=UTF-8'
@@ -163,7 +149,10 @@ export default class Index extends Component{
     //弹窗确认
     handleOk = ()=>{
         if(this.inputForm.value.id){
-            axios.post('/api/manage/editManageMenu',this.inputForm.value,{
+            axios.post('/api/manage/editManageMenu',{
+                type:"recommend",
+                ...this.inputForm.value
+            },{
                 headers:{
                     'content-type': 'text/plain; charset=UTF-8'
                 }
@@ -179,7 +168,10 @@ export default class Index extends Component{
             });
             return;
         }
-        axios.post('/api/manage/addManageMenu',this.inputForm.value,{
+        axios.post('/api/manage/addManageMenu',{
+            type:"recommend",
+            ...this.inputForm.value
+        },{
             headers:{
                 'content-type': 'text/plain; charset=UTF-8'
             }
@@ -210,7 +202,8 @@ export default class Index extends Component{
             title:"确认删除？",
             onOk:()=>{
                 axios.post('/api/manage/deleteManageMenu',{
-                    id:item.id
+                    id:item.id,
+                    type:"recommend",
                 },{
                     headers:{
                         'content-type': 'text/plain; charset=UTF-8'

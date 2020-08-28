@@ -8,6 +8,8 @@ var http = require("http");
 var https = require("https");
 var React = require("react");
 var axios = require('axios');
+var request = require('request');
+// var CryptoJS = require("crypto-js");
 
 //处理的时候忽略引入的样式文件
 // require('@babel/register')({
@@ -58,18 +60,37 @@ app.set('views',path.join(__dirname,'dist'));
 app.use(express.static(path.join(__dirname,'dist')));
 app.use(express.static(path.join(__dirname,'static')));
 
-//接口请求测试路由
-app.use('/test',function(req, res){
-    res.send(JSON.stringify({name:"小西瓜"}));
-})
-
-app.get("*",function(req,res,next){
+app.use("*",function(req,res,next){
     //重新获取路由配置文件,该配置只有在开发环境下能走
     if(isDev){
         delete require.cache[require.resolve("./config/routeConfig")];
         route = require("./config/routeConfig"); 
     }
     next();
+});
+
+app.get("/manage/*",function(req,res,next){
+    //排除是登录模块
+    if(req.url.indexOf("/manage/login")!=-1){
+        next()
+    }else{
+        request.get(`http://127.0.0.1/api/manage/ifLogin`,{
+                headers:{
+                    'User-Agent':'LemonTree-shine',
+                    'cookie':req.headers.cookie
+                }
+        },function(err,result){
+            var resultData = JSON.parse(result.body);
+            //判断是否登录
+            if(resultData.code==="10001"){
+                res.redirect("/manage/login");
+            }else{
+                next();
+            }
+            
+        })
+    }
+    
 });
 
 //路由配置，完全匹配前端路由
@@ -80,7 +101,7 @@ for(let path in route){
     let Admin = null;
     if(!isDev){
         Com = require(route[path].replace("@page","./serverPage"));
-        Admin = require("./serverPage/admin/admin");
+        Admin = require("./serverPage/manage/admin/admin");
     }
 
     //添加服务端映射路由配置
@@ -89,9 +110,9 @@ for(let path in route){
         if(isDev){
             console.log("是走的开发模式")
             delete require.cache[require.resolve(route[path].replace("@page","./serverPage"))];
-            delete require.cache[require.resolve('./serverPage/admin/admin')];
+            delete require.cache[require.resolve('./serverPage/manage/admin/admin')];
             Com = require(route[path].replace("@page","./serverPage"));
-            Admin = require("./serverPage/admin/admin");
+            Admin = require("./serverPage/manage/admin/admin");
         }
         
         //获取指定组件的静态方法并且执行
@@ -147,18 +168,6 @@ for(let path in route){
                     _reqData:encodeURIComponent(json_result)
                 });
             });
-            // res.render("index",{
-            //     _html:renderToString(
-            //         //<Com.default {...data}/>
-            //         <div>
-            //             <Admin.default/>
-            //             <div className="manage_page_common_content">
-            //                 <Com.default PAGE_DATA = {data}/>
-            //             </div>
-            //         </div>
-            //     ),
-            //     _reqData:JSON.stringify(data)
-            // }); 
         }
     });
 }

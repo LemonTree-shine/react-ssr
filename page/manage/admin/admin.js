@@ -14,7 +14,7 @@ export default class Admin extends Component{
                 </div>
                 {menuList.map((item,index)=>{
                     return <div 
-                        className={currentPath===item.linkUrl?"menu_list active":"menu_list"} 
+                        className={item.linkUrl.indexOf(currentPath)!=-1?"menu_list active":"menu_list"} 
                         key={item.id}
                         // onClick={()=>{
                         //     window.location.href = item.linkUrl;
@@ -36,7 +36,7 @@ export default class Admin extends Component{
                 })}
             </div>
             <div className="header_wrap_content">
-                <div className="login_name">admin</div>
+                <div className="login_name">{this.state.loginData.login_name}</div>
             </div>
         </div>
     }
@@ -46,13 +46,23 @@ export default class Admin extends Component{
             admin:1
         },{
             headers:{
-                'content-type': 'text/plain; charset=UTF-8'
+                'content-type': 'text/plain; charset=UTF-8',
+                "cookie":req.headers.cookie || ""
             }
         });
 
+        var loginData = await axios.post('http://127.0.0.1:8080/api/getUserInfo',{},{
+            headers:{
+                'content-type': 'text/plain; charset=UTF-8',
+                "cookie":req.headers.cookie || ""
+            }
+        });
+
+
         return {
             adminMenuList:result.data.data,
-            pathname:req.url.split("?")[0]
+            loginData:loginData.data.data,
+            pathname:req.url.split("?")[0].replace(/\/$/,"")
         };
     }
 
@@ -61,28 +71,16 @@ export default class Admin extends Component{
         this.state = {
             expend:true,
             menuList:props.PAGE_DATA.adminMenuList,
-            currentPath:props.PAGE_DATA.pathname
+            currentPath:props.PAGE_DATA.pathname,
+            loginData:props.PAGE_DATA.loginData,
         }
+        console.log(props);
+    }
+    componentWillMount(){
     }
     componentDidMount(){
-        // this.setState({
-        //     currentPath:this.props.location.pathname
-        // });
-    }
 
-    // async getManageMenu(){
-    //     var result = await axios.post('/api/manage/getManageMenu',{
-    //         admin:1
-    //     },{
-    //         headers:{
-    //             'content-type': 'text/plain; charset=UTF-8'
-    //         }
-    //     });
-    //     this.setState({
-    //         menuList:result.data.data,
-    //         currentPath:this.props.location.pathname
-    //     });
-    // }
+    }
 
     expendMenu = ()=>{
         let { expend } = this.state;

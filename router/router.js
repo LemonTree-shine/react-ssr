@@ -13,25 +13,25 @@ import React, { Component } from "react";
     export default {
         childRoutes: [    
             {
-            path: '/admin/admin',
+            path: '/manage/admin/admin',
             getComponent: (nextState, cb) => {
                 require.ensure([], (require) => {
-                    cb(null, wrap(require('../page/admin/admin.js').default))
-                }, "/admin/admin")
+                    cb(null, wrap(require('../page/manage/admin/admin.js').default))
+                }, "/manage/admin/admin")
             },
         },{
-            path: '/index/index',
+            path: '/manage/index/index',
             getComponent: (nextState, cb) => {
                 require.ensure([], (require) => {
-                    cb(null, wrap(require('../page/index/index.js').default))
-                }, "/index/index")
+                    cb(null, wrap(require('../page/manage/index/index.js').default))
+                }, "/manage/index/index")
             },
         },{
-            path: '/menu/index',
+            path: '/manage/menu/index',
             getComponent: (nextState, cb) => {
                 require.ensure([], (require) => {
-                    cb(null, wrap(require('../page/menu/index.js').default))
-                }, "/menu/index")
+                    cb(null, wrap(require('../page/manage/menu/index.js').default))
+                }, "/manage/menu/index")
             },
         },
         ]

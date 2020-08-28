@@ -9,6 +9,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
+
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
@@ -27,11 +29,15 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _axios = _interopRequireDefault(require("axios"));
 
-var _index = _interopRequireDefault(require("../../component/button/index"));
+var _index = _interopRequireDefault(require("../../../component/button/index"));
 
 var _antd = require("antd");
 
-var _form = _interopRequireDefault(require("../../component/form/form"));
+var _form = _interopRequireDefault(require("../../../component/form/form"));
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { (0, _defineProperty2["default"])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
 
@@ -58,15 +64,10 @@ var Index = /*#__PURE__*/function (_Component) {
         className: "table_div"
       }, /*#__PURE__*/_react["default"].createElement("table", null, /*#__PURE__*/_react["default"].createElement("thead", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("th", {
         width: "40px"
-      }, "ID"), /*#__PURE__*/_react["default"].createElement("th", null, "\u5730\u5740"), /*#__PURE__*/_react["default"].createElement("th", null, "\u540D\u79F0"), /*#__PURE__*/_react["default"].createElement("th", null, "\u56FE\u6807"), /*#__PURE__*/_react["default"].createElement("th", null, "\u64CD\u4F5C"))), /*#__PURE__*/_react["default"].createElement("tbody", null, menuList.map(function (item, index) {
+      }, "ID"), /*#__PURE__*/_react["default"].createElement("th", null, "\u540D\u79F0"), /*#__PURE__*/_react["default"].createElement("th", null, "\u5730\u5740"), /*#__PURE__*/_react["default"].createElement("th", null, "\u9605\u8BFB\u6B21\u6570"), /*#__PURE__*/_react["default"].createElement("th", null, "\u64CD\u4F5C"))), /*#__PURE__*/_react["default"].createElement("tbody", null, menuList.map(function (item, index) {
         return /*#__PURE__*/_react["default"].createElement("tr", {
           key: item.id
-        }, /*#__PURE__*/_react["default"].createElement("td", null, item.id), /*#__PURE__*/_react["default"].createElement("td", null, item.linkUrl), /*#__PURE__*/_react["default"].createElement("td", null, item.name), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("div", {
-          className: "iconfont",
-          dangerouslySetInnerHTML: {
-            __html: item.icon
-          }
-        }), item.icon), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("span", {
+        }, /*#__PURE__*/_react["default"].createElement("td", null, item.id), /*#__PURE__*/_react["default"].createElement("td", null, item.name), /*#__PURE__*/_react["default"].createElement("td", null, item.linkUrl), /*#__PURE__*/_react["default"].createElement("td", null, item.read_num), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("span", {
           className: "opration_btn",
           onClick: _this2.editMenu.bind(_this2, item)
         }, "\u7F16\u8F91"), "\xA0\xA0", /*#__PURE__*/_react["default"].createElement("span", {
@@ -120,18 +121,6 @@ var Index = /*#__PURE__*/function (_Component) {
         onChange: function onChange(e) {
           _this2.changeInputValue("linkUrl", e);
         }
-      }))), /*#__PURE__*/_react["default"].createElement("div", {
-        className: "from_label_group"
-      }, /*#__PURE__*/_react["default"].createElement("div", {
-        className: "label"
-      }, "\u56FE\u6807\uFF1A"), /*#__PURE__*/_react["default"].createElement("div", {
-        className: "input_wrap"
-      }, /*#__PURE__*/_react["default"].createElement(_antd.Input, {
-        name: "icon",
-        value: this.state.currentMenu.icon,
-        onChange: function onChange(e) {
-          _this2.changeInputValue("icon", e);
-        }
       })))))));
     }
   }], [{
@@ -145,10 +134,11 @@ var Index = /*#__PURE__*/function (_Component) {
               case 0:
                 _context.next = 2;
                 return _axios["default"].post('http://127.0.0.1:8080/api/manage/getManageMenu', {
-                  admin: 1
+                  type: "recommend"
                 }, {
                   headers: {
-                    'content-type': 'text/plain; charset=UTF-8'
+                    'content-type': 'text/plain; charset=UTF-8',
+                    "cookie": req.headers.cookie || ""
                   }
                 });
 
@@ -191,7 +181,7 @@ var Index = /*#__PURE__*/function (_Component) {
 
     _this.getMenu = function () {
       _axios["default"].post('/api/manage/getManageMenu', {
-        admin: 1
+        type: "recommend"
       }, {
         headers: {
           'content-type': 'text/plain; charset=UTF-8'
@@ -213,7 +203,9 @@ var Index = /*#__PURE__*/function (_Component) {
 
     _this.handleOk = function () {
       if (_this.inputForm.value.id) {
-        _axios["default"].post('/api/manage/editManageMenu', _this.inputForm.value, {
+        _axios["default"].post('/api/manage/editManageMenu', _objectSpread({
+          type: "recommend"
+        }, _this.inputForm.value), {
           headers: {
             'content-type': 'text/plain; charset=UTF-8'
           }
@@ -232,7 +224,9 @@ var Index = /*#__PURE__*/function (_Component) {
         return;
       }
 
-      _axios["default"].post('/api/manage/addManageMenu', _this.inputForm.value, {
+      _axios["default"].post('/api/manage/addManageMenu', _objectSpread({
+        type: "recommend"
+      }, _this.inputForm.value), {
         headers: {
           'content-type': 'text/plain; charset=UTF-8'
         }
@@ -262,7 +256,8 @@ var Index = /*#__PURE__*/function (_Component) {
         title: "确认删除？",
         onOk: function onOk() {
           _axios["default"].post('/api/manage/deleteManageMenu', {
-            id: item.id
+            id: item.id,
+            type: "recommend"
           }, {
             headers: {
               'content-type': 'text/plain; charset=UTF-8'

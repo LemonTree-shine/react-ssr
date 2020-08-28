@@ -58,7 +58,7 @@ var Admin = /*#__PURE__*/function (_Component) {
         className: "iconfont"
       }, "\uE8CC")), menuList.map(function (item, index) {
         return /*#__PURE__*/_react["default"].createElement("div", {
-          className: currentPath === item.linkUrl ? "menu_list active" : "menu_list",
+          className: item.linkUrl.indexOf(currentPath) != -1 ? "menu_list active" : "menu_list",
           key: item.id // onClick={()=>{
           //     window.location.href = item.linkUrl;
           // }}
@@ -77,13 +77,13 @@ var Admin = /*#__PURE__*/function (_Component) {
         className: "header_wrap_content"
       }, /*#__PURE__*/_react["default"].createElement("div", {
         className: "login_name"
-      }, "admin")));
+      }, this.state.loginData.login_name)));
     }
   }], [{
     key: "getAdminProps",
     value: function () {
       var _getAdminProps = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(req) {
-        var result;
+        var result, loginData;
         return _regenerator["default"].wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -93,18 +93,30 @@ var Admin = /*#__PURE__*/function (_Component) {
                   admin: 1
                 }, {
                   headers: {
-                    'content-type': 'text/plain; charset=UTF-8'
+                    'content-type': 'text/plain; charset=UTF-8',
+                    "cookie": req.headers.cookie || ""
                   }
                 });
 
               case 2:
                 result = _context.sent;
-                return _context.abrupt("return", {
-                  adminMenuList: result.data.data,
-                  pathname: req.url.split("?")[0]
+                _context.next = 5;
+                return _axios["default"].post('http://127.0.0.1:8080/api/getUserInfo', {}, {
+                  headers: {
+                    'content-type': 'text/plain; charset=UTF-8',
+                    "cookie": req.headers.cookie || ""
+                  }
                 });
 
-              case 4:
+              case 5:
+                loginData = _context.sent;
+                return _context.abrupt("return", {
+                  adminMenuList: result.data.data,
+                  loginData: loginData.data.data,
+                  pathname: req.url.split("?")[0].replace(/\/$/, "")
+                });
+
+              case 7:
               case "end":
                 return _context.stop();
             }
@@ -145,30 +157,19 @@ var Admin = /*#__PURE__*/function (_Component) {
     _this.state = {
       expend: true,
       menuList: props.PAGE_DATA.adminMenuList,
-      currentPath: props.PAGE_DATA.pathname
+      currentPath: props.PAGE_DATA.pathname,
+      loginData: props.PAGE_DATA.loginData
     };
+    console.log(props);
     return _this;
   }
 
   (0, _createClass2["default"])(Admin, [{
+    key: "componentWillMount",
+    value: function componentWillMount() {}
+  }, {
     key: "componentDidMount",
-    value: function componentDidMount() {// this.setState({
-      //     currentPath:this.props.location.pathname
-      // });
-    } // async getManageMenu(){
-    //     var result = await axios.post('/api/manage/getManageMenu',{
-    //         admin:1
-    //     },{
-    //         headers:{
-    //             'content-type': 'text/plain; charset=UTF-8'
-    //         }
-    //     });
-    //     this.setState({
-    //         menuList:result.data.data,
-    //         currentPath:this.props.location.pathname
-    //     });
-    // }
-
+    value: function componentDidMount() {}
   }]);
   return Admin;
 }(_react.Component);

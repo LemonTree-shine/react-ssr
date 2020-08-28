@@ -14,17 +14,17 @@ if(process.env.NODE_ENV){
     isDev = process.env.NODE_ENV === "development"
 }
 
-let PublicPath = "http://localhost/";
+let PublicPath = "http://127.0.0.1:8080/";
 
 let SourceMap = {}
 
 if(isDev){
-    PublicPath = "http://localhost:8080/";
+    PublicPath = "http://127.0.0.1:8080/";
     SourceMap = {
         // devtool: 'source-map'
     }
 }else{
-    PublicPath = "http://localhost:8080/";
+    PublicPath = "http://127.0.0.1:8080/";
 }
 console.log(isDev);
 

@@ -41,7 +41,7 @@
     "dev": "cross-env NODE_ENV=development webpack --watch",
     "build": "cross-env NODE_ENV=production webpack",
     "server": "cross-env NODE_ENV=development babel-node server.js",
-    "file":"babel -w page --out-dir serverPage --copy-files"
+    "file": "babel -w page --out-dir serverPage --copy-files"
   },
   "dependencies": {
     "@types/react": "^16.9.0",
@@ -52,6 +52,7 @@
     "babel-plugin-import": "^1.13.0",
     "babel-plugin-transform-require-ignore": "^0.1.1",
     "clean-webpack-plugin": "^3.0.0",
+    "crypto-js": "^4.0.0",
     "customize-cra": "^0.4.1",
     "ejs": "^2.6.2",
     "express": "^4.17.1",
@@ -71,5 +72,5 @@
     "ts-loader": "^6.0.4",
     "uglifyjs-webpack-plugin": "^2.2.0"
   },
-  "target": "http://localhost"
+  "target": "http://127.0.0.1"
 }

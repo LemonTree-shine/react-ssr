@@ -13,7 +13,7 @@ function configProxy(app){
     }
     
     var Proxy = proxy.createProxyServer({
-        //changeOrigin: true
+        changeOrigin: true
     });
 
 
@@ -27,7 +27,7 @@ function configProxy(app){
 
     Proxy.on('proxyReq', function (proxyReq, req, res, options) {
         //同步cookie
-        proxyReq.setHeader("cookie", req.headers.cookie || '');
+        //proxyReq.setHeader("cookie", 'Login_session=s%3A_ZUOhjPR80WpyG2mF1DFZ_iE8Ehfu8PA.t11KOBUWkRK3Ob%2FfEq8V7XxMKP%2BHfPkjNoKLbDolpXM');
     });
     Proxy.on('error',(e)=>{
         console.log(e);
