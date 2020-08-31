@@ -54,7 +54,7 @@ var Index = /*#__PURE__*/function (_Component) {
         className: "MB_15"
       }, /*#__PURE__*/_react["default"].createElement(_index["default"], {
         onClick: this.addMenu
-      }, "\u6DFB\u52A0")), /*#__PURE__*/_react["default"].createElement("div", {
+      }, "\u6DFB\u52A01")), /*#__PURE__*/_react["default"].createElement("div", {
         className: "table_div"
       }, /*#__PURE__*/_react["default"].createElement("table", null, /*#__PURE__*/_react["default"].createElement("thead", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("th", {
         width: "40px"

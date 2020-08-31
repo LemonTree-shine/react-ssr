@@ -10,7 +10,7 @@ export default class Index extends Component{
         let {menuList} = this.state;
         return <div className="home_page">
             <div className="MB_15">
-                <Button onClick={this.addMenu}>添加</Button>
+                <Button onClick={this.addMenu}>添加1</Button>
             </div>
             <div className="table_div">
                 <table>
