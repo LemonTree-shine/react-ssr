@@ -83,6 +83,10 @@ app.get("/manage/*",function(req,res,next){
                     'cookie':req.headers.cookie
                 }
         },function(err,result){
+            if(err){
+                res.send(JSON.stringify(err));
+                return;
+            }
             var resultData = JSON.parse(result.body);
             //判断是否登录
             if(resultData.code==="10001"){
