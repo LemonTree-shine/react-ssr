@@ -64,10 +64,10 @@ var Index = /*#__PURE__*/function (_Component) {
         className: "table_div"
       }, /*#__PURE__*/_react["default"].createElement("table", null, /*#__PURE__*/_react["default"].createElement("thead", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("th", {
         width: "40px"
-      }, "ID"), /*#__PURE__*/_react["default"].createElement("th", null, "\u540D\u79F0"), /*#__PURE__*/_react["default"].createElement("th", null, "\u5730\u5740"), /*#__PURE__*/_react["default"].createElement("th", null, "\u9605\u8BFB\u6B21\u6570"), /*#__PURE__*/_react["default"].createElement("th", null, "\u64CD\u4F5C"))), /*#__PURE__*/_react["default"].createElement("tbody", null, menuList.map(function (item, index) {
+      }, "ID"), /*#__PURE__*/_react["default"].createElement("th", null, "\u540D\u79F0"), /*#__PURE__*/_react["default"].createElement("th", null, "\u5730\u5740"), /*#__PURE__*/_react["default"].createElement("th", null, "\u7C7B\u578B"), /*#__PURE__*/_react["default"].createElement("th", null, "\u9605\u8BFB\u6B21\u6570"), /*#__PURE__*/_react["default"].createElement("th", null, "\u64CD\u4F5C"))), /*#__PURE__*/_react["default"].createElement("tbody", null, menuList.map(function (item, index) {
         return /*#__PURE__*/_react["default"].createElement("tr", {
           key: item.id
-        }, /*#__PURE__*/_react["default"].createElement("td", null, item.id), /*#__PURE__*/_react["default"].createElement("td", null, item.name), /*#__PURE__*/_react["default"].createElement("td", null, item.linkUrl), /*#__PURE__*/_react["default"].createElement("td", null, item.read_num), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("span", {
+        }, /*#__PURE__*/_react["default"].createElement("td", null, item.id), /*#__PURE__*/_react["default"].createElement("td", null, item.name), /*#__PURE__*/_react["default"].createElement("td", null, item.linkUrl), /*#__PURE__*/_react["default"].createElement("td", null, item.type), /*#__PURE__*/_react["default"].createElement("td", null, item.read_num), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("span", {
           className: "opration_btn",
           onClick: _this2.editMenu.bind(_this2, item)
         }, "\u7F16\u8F91"), "\xA0\xA0", /*#__PURE__*/_react["default"].createElement("span", {
@@ -120,6 +120,18 @@ var Index = /*#__PURE__*/function (_Component) {
         value: this.state.currentMenu.linkUrl,
         onChange: function onChange(e) {
           _this2.changeInputValue("linkUrl", e);
+        }
+      }))), /*#__PURE__*/_react["default"].createElement("div", {
+        className: "from_label_group"
+      }, /*#__PURE__*/_react["default"].createElement("div", {
+        className: "label"
+      }, "\u7C7B\u578B\uFF1A"), /*#__PURE__*/_react["default"].createElement("div", {
+        className: "input_wrap"
+      }, /*#__PURE__*/_react["default"].createElement(_antd.Input, {
+        name: "menuType",
+        value: this.state.currentMenu.type,
+        onChange: function onChange(e) {
+          _this2.changeInputValue("type", e);
         }
       })))))));
     }

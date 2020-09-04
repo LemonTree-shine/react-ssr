@@ -88,6 +88,12 @@ app.get("/manage/*",function(req,res,next){
                 return;
             }
             var resultData = JSON.parse(result.body);
+
+
+            if(isDev){
+                next();
+                return;
+            }
             //判断是否登录
             if(resultData.code==="10001"){
                 res.redirect("/manage/login");

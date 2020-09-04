@@ -19,6 +19,7 @@ export default class Index extends Component{
                             <th width="40px">ID</th>
                             <th>名称</th>
                             <th>地址</th>
+                            <th>类型</th>
                             <th>阅读次数</th>
                             <th>操作</th>
                         </tr>
@@ -29,6 +30,7 @@ export default class Index extends Component{
                                 <td>{item.id}</td> 
                                 <td>{item.name}</td> 
                                 <td>{item.linkUrl}</td> 
+                                <td>{item.type}</td> 
                                 <td>{item.read_num}</td> 
                                 <td>
                                     <span className="opration_btn" onClick={this.editMenu.bind(this,item)}>编辑</span>&nbsp;&nbsp;
@@ -76,6 +78,16 @@ export default class Index extends Component{
                                     name="linkUrl" 
                                     value={this.state.currentMenu.linkUrl}
                                     onChange={(e)=>{this.changeInputValue("linkUrl",e)}}
+                                />
+                            </div>
+                        </div>
+                        <div className="from_label_group">
+                            <div className="label">类型：</div>
+                            <div className="input_wrap">
+                                <Input 
+                                    name="menuType" 
+                                    value={this.state.currentMenu.type}
+                                    onChange={(e)=>{this.changeInputValue("type",e)}}
                                 />
                             </div>
                         </div>
