@@ -1,6 +1,13 @@
 
 
-require("@babel/register");
+//判断是开发环境还是生产环境
+//console.log(process.env.NODE_ENV);
+//development是开发环境，production是生产环境
+let isDev = false;
+if(process.env.NODE_ENV==="development"){
+    isDev = true;
+}
+
 
 var express = require("express");
 var path = require("path");
@@ -11,20 +18,7 @@ var https = require("https");
 var React = require("react");
 var axios = require('axios');
 var request = require('request');
-// var CryptoJS = require("crypto-js");
-
-//处理的时候忽略引入的样式文件
-// require('@babel/register')({
-//     'plugins': [
-//       [
-//         'babel-plugin-transform-require-ignore',
-//         {
-//           extensions: ['.scss']
-//         }
-//       ]
-//     ]
-//   });
-
+var compression = require('compression')
 
 const {renderToString,renderToStaticMarkup} = require('react-dom/server');
 
@@ -39,17 +33,19 @@ var serverInfo = require("./serverConfig");    //服务端配置文件
 
 var route = require("./config/routeConfig");  //路由配置文件
 
-var createRoure = require("./watch");
+//var createRoure = require("./watch");
 
 var app = express();
 
-//判断是开发环境还是生产环境
-//console.log(process.env.NODE_ENV);
-//development是开发环境，production是生产环境
-let isDev = true;
-if(process.env.NODE_ENV==="production"){
-    isDev = false;
+//生产环境开启gzip
+if(!isDev){
+    app.use(compression())
 }
+
+//配置服务端渲染文件路径
+let build_render_path = "./server_view/page";
+let dev_render_path = "./view/page";
+
 
 //开启代理
 configProxy(app);
@@ -88,8 +84,6 @@ app.get("/manage/*",function(req,res,next){
                 return;
             }
             var resultData = JSON.parse(result.body);
-
-
             if(isDev){
                 next();
                 return;
@@ -113,8 +107,8 @@ for(let path in route){
     let Com = null;
     let Admin = null;
     if(!isDev){
-        Com = require(route[path].replace("@page","./serverPage"));
-        Admin = require("./serverPage/manage/admin/admin");
+        Com = require(route[path].replace("@page",build_render_path));
+        Admin = require(`${build_render_path}/manage/admin/admin`);
     }
 
     //添加服务端映射路由配置
@@ -122,10 +116,10 @@ for(let path in route){
         // //开发模式下，每次路由进来删除原有的缓存，重新获取新的资源
         if(isDev){
             console.log("是走的开发模式")
-            delete require.cache[require.resolve(route[path].replace("@page","./serverPage"))];
-            delete require.cache[require.resolve('./serverPage/manage/admin/admin')];
-            Com = require(route[path].replace("@page","./serverPage"));
-            Admin = require("./serverPage/manage/admin/admin");
+            delete require.cache[require.resolve(route[path].replace("@page",dev_render_path))];
+            delete require.cache[require.resolve(`${dev_render_path}/manage/admin/admin`)];
+            Com = require(route[path].replace("@page",dev_render_path));
+            Admin = require(`${dev_render_path}/manage/admin/admin`);
         }
         
         //获取指定组件的静态方法并且执行

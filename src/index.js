@@ -6,7 +6,7 @@ import Login from "../_document/login/login";
 
 import {Router,browserHistory,Route,BrowserRouter} from 'react-router';
 
-import Admin from "../page/manage/admin/admin";
+import Admin from "../view/page/manage/admin/admin";
 
 //全量加载的配置文件
 import route from "../config/routeConfig";
@@ -18,7 +18,7 @@ let routeArr = [];
 for(let key in route){
 
     //处理路由配置文件
-    const context = require.context('../page', true, /\.jsx?$/);
+    const context = require.context('../view/page', true, /\.jsx?$/);
     //const keys = context.keys();
     const filename = route[key].replace("@page",".");
     const Com = context(filename);

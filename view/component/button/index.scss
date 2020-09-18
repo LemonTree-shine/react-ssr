@@ -1,0 +1,10 @@
+.manage_common_btn{
+    display: inline-block;
+    //background: $themeColor;
+    @include setThemes("background");
+    color: #ffffff;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+}

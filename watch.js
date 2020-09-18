@@ -14,13 +14,13 @@ function createRouter(path){
         });
     }else{
         if(/\.jsx?$/.test(path)){
-            routeContent[path.replace(/\.\/page/,"").replace(/\.jsx?$/,"")] = path.replace("./page","@page");
+            routeContent[path.replace(/\.\/view\/page/,"").replace(/\.jsx?$/,"")] = path.replace("./view/page","@page");
             //生成前后端路由的配置文件
             let contentStr = `module.exports = ${JSON.stringify(routeContent)}`;
             fs.writeFileSync("./config/routeConfig.js", contentStr);
 
             //生成按需加载的前端路由配置文件
-            createChunkRouter(routeContent);
+            //createChunkRouter(routeContent);
         }
     }
 }
@@ -63,10 +63,10 @@ function createChunkRouter(routeConfig={}){
 //监听文件变化出发
 function didCreateRoure(){
     routeContent = {}
-    createRouter('./page');
-    watch('./page', { recursive: true }, function(evt, name) {
+    createRouter('./view/page');
+    watch('./view/page', { recursive: true }, function(evt, name) {
         routeContent = {}
-        createRouter('./page');
+        createRouter('./view/page');
     });
 
     console.log("成功监听page文件夹");

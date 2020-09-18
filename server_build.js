@@ -8,7 +8,14 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { (0, _defineProperty2["default"])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-require("@babel/register");
+//判断是开发环境还是生产环境
+//console.log(process.env.NODE_ENV);
+//development是开发环境，production是生产环境
+var isDev = false;
+
+if (process.env.NODE_ENV === "development") {
+  isDev = true;
+}
 
 var express = require("express");
 
@@ -26,19 +33,9 @@ var React = require("react");
 
 var axios = require('axios');
 
-var request = require('request'); // var CryptoJS = require("crypto-js");
-//处理的时候忽略引入的样式文件
-// require('@babel/register')({
-//     'plugins': [
-//       [
-//         'babel-plugin-transform-require-ignore',
-//         {
-//           extensions: ['.scss']
-//         }
-//       ]
-//     ]
-//   });
+var request = require('request');
 
+var compression = require('compression');
 
 var _require = require('react-dom/server'),
     renderToString = _require.renderToString,
@@ -60,20 +57,18 @@ var serverInfo = require("./serverConfig"); //服务端配置文件
 
 
 var route = require("./config/routeConfig"); //路由配置文件
+//var createRoure = require("./watch");
 
 
-var createRoure = require("./watch");
+var app = express(); //生产环境开启gzip
 
-var app = express(); //判断是开发环境还是生产环境
-//console.log(process.env.NODE_ENV);
-//development是开发环境，production是生产环境
+if (!isDev) {
+  app.use(compression());
+} //配置服务端渲染文件路径
 
-var isDev = true;
 
-if (process.env.NODE_ENV === "production") {
-  isDev = false;
-} //开启代理
-
+var build_render_path = "./server_view/page";
+var dev_render_path = "./view/page"; //开启代理
 
 configProxy(app); //配置handlebar模板
 
@@ -108,7 +103,13 @@ app.get("/manage/*", function (req, res, next) {
         return;
       }
 
-      var resultData = JSON.parse(result.body); //判断是否登录
+      var resultData = JSON.parse(result.body);
+
+      if (isDev) {
+        next();
+        return;
+      } //判断是否登录
+
 
       if (resultData.code === "10001") {
         res.redirect("/manage/login");
@@ -126,8 +127,8 @@ var _loop = function _loop(_path) {
   var Admin = null;
 
   if (!isDev) {
-    Com = require(route[_path].replace("@page", "./serverPage"));
-    Admin = require("./serverPage/manage/admin/admin");
+    Com = require(route[_path].replace("@page", build_render_path));
+    Admin = require("".concat(build_render_path, "/manage/admin/admin"));
   } //添加服务端映射路由配置
 
 
@@ -135,10 +136,10 @@ var _loop = function _loop(_path) {
     // //开发模式下，每次路由进来删除原有的缓存，重新获取新的资源
     if (isDev) {
       console.log("是走的开发模式");
-      delete require.cache[require.resolve(route[_path].replace("@page", "./serverPage"))];
-      delete require.cache[require.resolve('./serverPage/manage/admin/admin')];
-      Com = require(route[_path].replace("@page", "./serverPage"));
-      Admin = require("./serverPage/manage/admin/admin");
+      delete require.cache[require.resolve(route[_path].replace("@page", dev_render_path))];
+      delete require.cache[require.resolve("".concat(dev_render_path, "/manage/admin/admin"))];
+      Com = require(route[_path].replace("@page", dev_render_path));
+      Admin = require("".concat(dev_render_path, "/manage/admin/admin"));
     } //获取指定组件的静态方法并且执行
 
 
