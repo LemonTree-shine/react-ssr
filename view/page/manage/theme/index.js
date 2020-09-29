@@ -44,7 +44,7 @@ export default class Index extends Component{
 
     setTheme = (item)=>{
         console.log(this.props.PAGE_DATA);
-        let userInfo = this.props.PAGE_DATA;
+        let userInfo = this.props.PAGE_DATA.loginData;
         //判断是否登录
         if(!userInfo.id){
             notification.error({
