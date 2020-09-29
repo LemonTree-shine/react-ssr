@@ -153,7 +153,8 @@ for(let path in route){
                             </div>
                         </div>
                     ),
-                    _reqData:encodeURIComponent(json_result)
+                    _reqData:encodeURIComponent(json_result),
+                    userInfo:PAGE_DATA.loginData
                 });
             });
         }else{
@@ -172,7 +173,8 @@ for(let path in route){
                             </div>
                         </div>
                     ),
-                    _reqData:encodeURIComponent(json_result)
+                    _reqData:encodeURIComponent(json_result),
+                    userInfo:PAGE_DATA.loginData
                 });
             });
         }
@@ -182,13 +184,9 @@ for(let path in route){
 app.get("*",function(req,res,next){
     res.render("index",{
         _html:"",
-        _reqData:JSON.stringify({})
+        _reqData:JSON.stringify({}),
     }); 
 });
-
-
-
-
 
 
 var HTTP = http.createServer(app);

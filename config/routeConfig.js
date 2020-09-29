@@ -1,1 +1,1 @@
-module.exports = {"/manage/admin/admin":"@page/manage/admin/admin.js","/manage/index/index":"@page/manage/index/index.js","/manage/menu/index":"@page/manage/menu/index.js"}
+module.exports = {"/manage/admin/admin":"@page/manage/admin/admin.js","/manage/index/index":"@page/manage/index/index.js","/manage/menu/index":"@page/manage/menu/index.js","/manage/theme/index":"@page/manage/theme/index.js"}

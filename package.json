@@ -42,8 +42,9 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack --watch",
     "build": "cross-env NODE_ENV=production webpack",
+    "route":"node watch.js",
     "file": "babel server.js --out-file server_build.js && babel view --out-dir server_view --copy-files",
-    "server_dev": "cross-env NODE_ENV=development babel-node server.js",
+    "server": "cross-env NODE_ENV=development babel-node server.js",
     "server_p": "node server_build.js"
   },
   "dependencies": {

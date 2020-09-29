@@ -12,7 +12,7 @@
         window._reqData = JSON.parse(decodeURIComponent('{{{_reqData}}}'));
     </script>
 </head>
-<body class="admin-theme-green">
+<body class="admin-theme-{{#if userInfo.theme}}{{userInfo.theme}}{{else}}green{{/if}}">
     <div id="contain">{{{_html}}}</div>
 </body>
 </html>
